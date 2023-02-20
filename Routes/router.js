@@ -19,17 +19,28 @@ app.get('/note', async(req, res)=>{
     if(!notes){
         res.status(404).send("No notes yet!!")
     }
-    res.send(notes)
+    res.status(200).send(notes)
 })
 
 //Get a particular note
 app.get('/note/:id', async(req, res)=>{
     const note = await noteDB.findById({_id: req.params.id})
 
-    if(!notes){
+    if(!note){
         res.status(404).send("Note not found")
     }
-    res.send(note)
+    res.status(200).send(note)
+})
+
+//Update a note
+app.put('/update/:id', async(req, res)=>{
+    const note = await noteDB.findByIdAndUpdate({_id: req.params.id})
+    res.status(200).send("Note updated successfully")
+})
+
+app.delete('/delNote/:id', async(req, res)=>{
+    await noteDB.findByIdAndDelete({_id: req.params.id})
+    res.status(204).send('Deleted')
 })
 
 module.exports = app
