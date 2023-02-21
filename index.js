@@ -6,7 +6,7 @@ const noteRoutes = require('./Routes/router')
 require('dotenv').config()
 const app = express()
 
-mongoose.connect("mongodb://127.0.0.1:27017/notes", {UseNewUrlParser: true}).then(()=>{
+mongoose.connect(process.env.URL, {UseNewUrlParser: true}).then(()=>{
  
     app.use(express.urlencoded({extended:false}))
     app.use(express.json())

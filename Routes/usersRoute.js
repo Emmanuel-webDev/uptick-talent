@@ -5,13 +5,13 @@ const user = require('../model/auth')
 const app = express()
 
 //signup 
-app.post('/signup', async (req, res)=>{
+app.post('/', async (req, res)=>{
 const db = await user.find() 
 
 const {name, email, password} = req.body
 
 if(db.email === email){
-    return res.status(403).send("This email is already registered")
+    return res.status(409).send("This email is already registered")
 }
 
 const hashed = await bcrypt.hash(password, 12)
@@ -35,12 +35,12 @@ const {email, password} = req.body
 
     const userExist = await user.findOne({email: req.body.email})
     if(!userExist){
-       res.status(403).send("User with this email not found")
+       res.status(401).send("User with this email not found")
     }
  
     const check = await bcrypt.compare(password, userExist.password)
     if(!check){
-        res.status(403).send("Incorrect user password")
+        res.status(401).send("Incorrect user password")
     }
 
     res.status(200).send('Login Successful!!')

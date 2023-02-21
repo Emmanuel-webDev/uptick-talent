@@ -34,7 +34,10 @@ app.get('/note/:id', async(req, res)=>{
 
 //Update a note
 app.put('/update/:id', async(req, res)=>{
-    const note = await noteDB.findByIdAndUpdate({_id: req.params.id})
+    const note = await noteDB.findByIdAndUpdate({_id: req.params.id}, {
+        title: req.body.title,
+        text: req.body.text
+    })
     res.status(200).send("Note updated successfully")
 })
 
